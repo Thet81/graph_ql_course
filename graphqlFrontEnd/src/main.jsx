@@ -12,10 +12,6 @@ const client = new ApolloClient({
   cache : new InMemoryCache(),
 })
 
-// client.query({query}).then(response => {
-//   console.log(response.data)
-// })
-
 createRoot(document.getElementById('root')).render(
   <StrictMode>
    <ApolloProvider client={client}>
