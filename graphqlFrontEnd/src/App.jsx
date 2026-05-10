@@ -3,18 +3,20 @@ import {gql} from '@apollo/client'
 import {useQuery} from '@apollo/client/react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
-const ALL_PERSONS = gql`
-  query {
-    allPersons{
-      name
-      phone
-      id
-    }
-  }
+import {ALL_PERSONS} from './queries'
+import {useState} from 'react'
+import Notify from './components/Notify'
 
-`
-
+ 
 const App = ()=> {
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const notify = (message)=> {
+    setErrorMessage(message)
+    setTimeout(()=> {
+      setErrorMessage(null)
+    },5000)
+  }
   const result = useQuery(ALL_PERSONS)
   console.log("result is", result)
 
@@ -23,8 +25,9 @@ const App = ()=> {
   }
   return (
     <div>
+      <Notify errorMessage={errorMessage}/>
       <Persons persons={result.data.allPersons}/>
-      <PersonForm/>
+      <PersonForm setError={notify}/>
     </div>
   )
 }
