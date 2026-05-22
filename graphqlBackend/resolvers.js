@@ -18,6 +18,9 @@ const resolvers = {
 		findPerson : async (root,args)=> Person.findOne({name : args.name}),
 		me : (root, args, context)=> {
 			return context.currentUser
+		},
+		allUsers: async (root,args)=> {
+			return User.find({})
 		}
 	},
 	Person : {

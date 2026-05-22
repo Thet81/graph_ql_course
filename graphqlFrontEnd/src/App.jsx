@@ -7,9 +7,11 @@ import {ALL_PERSONS} from './queries'
 import {useState} from 'react'
 import Notify from './components/Notify'
 import PhoneForm from './components/PhoneForm'
- 
+import LoginForm from './components/LoginForm'
+
 const App = ()=> {
   const [errorMessage, setErrorMessage] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("phonebook-user-token"))
 
   const notify = (message)=> {
     setErrorMessage(message)
@@ -22,6 +24,23 @@ const App = ()=> {
 
   if (result.loading) {
     return <div>loading....</div>
+  }
+
+  if (result.error){
+    return <div>{result.error.message}</div>
+  }
+
+  if(!token){
+    return (
+      <div>
+        <Notify errorMessage={errorMessage}/>
+        <h2>login</h2>
+        <LoginForm
+          setToken={setToken}
+          setErrorMessage={setErrorMessage}
+        />
+      </div>
+    )
   }
   return (
     <div>

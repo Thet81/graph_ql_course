@@ -24,6 +24,7 @@ const typeDefs = `
 		allPersons (phone : YesNo) : [Person!]!
 		findPerson(name : String!) : Person
 		me : User
+		allUsers : [User]
 	}
 
 	type Mutation {
