@@ -118,7 +118,8 @@ const resolvers = {
 			if(!user || args.password !== 'secret'){
 				throw new GraphQLError(`Wrong credentials`,{
 					extensions : {
-						code : 'BAD_USER_INPUT'
+						code : 'BAD_USER_INPUT',
+						message : "Wrong credentials"
 					}
 				})
 			}
