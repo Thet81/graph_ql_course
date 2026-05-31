@@ -1,9 +1,9 @@
 
 import {gql} from '@apollo/client'
-import {useQuery, useApolloClient,} from '@apollo/client/react'
+import {useQuery, useApolloClient, useSubscription} from '@apollo/client/react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
-import {ALL_PERSONS} from './queries'
+import {ALL_PERSONS, PERSON_ADDED} from './queries'
 import {useState} from 'react'
 import Notify from './components/Notify'
 import PhoneForm from './components/PhoneForm'
@@ -14,6 +14,11 @@ const App = ()=> {
   const [token, setToken] = useState(localStorage.getItem("phonebook-user-token"))
   const client = useApolloClient()
 
+  const useSubscription (PERSON_ADDED,{
+    onData : ({data})=> {
+      console.log(data)
+    }
+  })
   const notify = (message)=> {
     setErrorMessage(message)
     setTimeout(()=> {
