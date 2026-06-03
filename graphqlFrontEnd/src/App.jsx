@@ -8,15 +8,18 @@ import {useState} from 'react'
 import Notify from './components/Notify'
 import PhoneForm from './components/PhoneForm'
 import LoginForm from './components/LoginForm'
-
+import {addPersonToCache} from './utils/apolloCache'
 const App = ()=> {
   const [errorMessage, setErrorMessage] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("phonebook-user-token"))
   const client = useApolloClient()
 
-  const useSubscription (PERSON_ADDED,{
+  useSubscription (PERSON_ADDED,{
     onData : ({data})=> {
-      console.log(data)
+      // console.log(data)
+      const addedPerson = data.data.personAdded
+      notify(`${addedPerson.name} added`)
+      addPersonToCache(client.cache, addedPerson)
     }
   })
   const notify = (message)=> {

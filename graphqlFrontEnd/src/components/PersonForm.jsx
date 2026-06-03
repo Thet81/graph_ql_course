@@ -3,7 +3,7 @@ import {useState} from 'react'
 import {gql} from '@apollo/client'
 import {useMutation} from '@apollo/client/react'
 import {ALL_PERSONS, CREATE_PERSON} from '../queries'
-
+import {addPersonToCache} from '../utils/apolloCache'
 const PersonForm = ({setError})=> {
 	const [name, setName] = useState('')
 	const [phone, setPhone] = useState('')
@@ -14,11 +14,8 @@ const PersonForm = ({setError})=> {
 		// the query is rerun with every updates
 		// refetchQueries : [{query : ALL_PERSONS}],
 		update : (cache,response)=> {
-			cache.updateQuery({query : ALL_PERSONS},({allPersons})=> {
-				return {
-					allPersons : allPersons.concat(response.data.addPerson),
-				}
-			})
+			const addedPerson = response.data.addPerson
+			addPersonToCache(cache, addedPerson)
 		},
 		onError : (error)=> setError(error.message),
 	})
